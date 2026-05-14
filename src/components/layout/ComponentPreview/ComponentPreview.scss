@@ -1,0 +1,47 @@
+/*
+  Any component rendered inside .component-preview can now use @container
+  instead of @media, so it responds to this wrapper's width instead of
+  the full browser viewport.
+*/
+
+.component-preview {
+  container: component-preview / inline-size;
+  color-scheme: light;
+
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: var(--preview-min-height);
+  padding: var(--space-4);
+
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+[data-theme='light'] .component-preview,
+.component-preview[data-theme='light'] {
+  color-scheme: light;
+}
+
+[data-theme='dark'] .component-preview,
+.component-preview[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-background: #09090b;
+  --color-surface: #18181b;
+  --color-surface-muted: #27272a;
+  --color-foreground: #fafafa;
+  --color-muted: #a1a1aa;
+  --color-border: #3f3f46;
+  --color-accent: #60a5fa;
+  --color-accent-foreground: #020617;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 12px 32px rgb(0 0 0 / 0.35);
+}
+
+@media (min-width: 1200px) {
+  .component-preview {
+    grid-column: 2;
+    min-width: 0;
+  }
+}
