@@ -1,9 +1,18 @@
 import './Sidebar.scss';
+import type { LibraryComponentId } from '../../library/componentRegistry';
+
+type SidebarComponent = {
+  id: LibraryComponentId;
+  label: string;
+};
 
 type SidebarProps = {
+  components: readonly SidebarComponent[];
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
+  onSelectComponent: (componentId: LibraryComponentId) => void;
+  selectedComponentId: LibraryComponentId;
 };
 
 const SidebarIcon = () => (
@@ -54,7 +63,25 @@ export function Sidebar(props: SidebarProps) {
             <SidebarIcon />
           </button>
         </div>
-        <div className="sidebar__content"></div>
+        <ul className="sidebar__nav" aria-label="Components">
+          {props.components.map(component => (
+            <li className="sidebar__nav-item" key={component.id}>
+              <a
+                className="sidebar__nav-link"
+                href={`#${component.id}`}
+                aria-current={
+                  props.selectedComponentId === component.id ? 'page' : undefined
+                }
+                onClick={event => {
+                  event.preventDefault();
+                  props.onSelectComponent(component.id);
+                }}
+              >
+                {component.label}
+              </a>
+            </li>
+          ))}
+        </ul>
       </nav>
     </>
   );

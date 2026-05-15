@@ -74,8 +74,22 @@
   font-weight: var(--font-weight-semibold);
 }
 
-.sidebar__content {
-  min-width: 0;
+.sidebar__nav {
+  display: grid;
+  gap: var(--space-1);
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar__nav-link {
+  color: var(--color-foreground);
+  text-decoration: none;
+}
+
+.sidebar__nav-link:hover,
+.sidebar__nav-link:focus-visible,
+.sidebar__nav-link[aria-current='page'] {
+  color: var(--color-muted);
 }
 
 @media (min-width: 1200px) {
