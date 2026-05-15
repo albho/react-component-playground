@@ -55,11 +55,6 @@ export function ComponentControl(props: ComponentControlProps) {
             Reload Component
           </button>
         </div>
-        <footer className="component-control__footer">
-          <button className="component-control__source-button" type="button">
-            View Source
-          </button>
-        </footer>
       </div>
     </aside>
   );
