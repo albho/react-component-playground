@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import './App.scss';
+import {
+  getDemoComponent,
+  demoComponents,
+  type DemoComponentId,
+} from './components/demo/componentRegistry';
 import { ComponentControl } from './components/layout/ComponentControl/ComponentControl';
 import { ComponentPreview } from './components/layout/ComponentPreview/ComponentPreview';
 import { Sidebar } from './components/layout/Sidebar/Sidebar';
-import {
-  getLibraryComponent,
-  libraryComponents,
-  type LibraryComponentId,
-} from './components/library/componentRegistry';
 
 function App() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [selectedComponentId, setSelectedComponentId] =
-    useState<LibraryComponentId>(libraryComponents[0].id);
-  const selectedComponent = getLibraryComponent(selectedComponentId);
+    useState<DemoComponentId>(demoComponents[0].id);
+  const selectedComponent = getDemoComponent(selectedComponentId);
   const SelectedComponentControlState = selectedComponent.ControlState;
   const SelectedComponentControls = selectedComponent.Controls;
   const SelectedComponentPreview = selectedComponent.Preview;
@@ -22,7 +22,7 @@ function App() {
   return (
     <div className="app">
       <Sidebar
-        components={libraryComponents}
+        components={demoComponents}
         isOpen={isNavOpen}
         onOpen={() => setIsNavOpen(true)}
         onClose={() => setIsNavOpen(false)}

@@ -1,8 +1,8 @@
+import type { DemoComponentId } from '../../demo/componentRegistry';
 import './Sidebar.scss';
-import type { LibraryComponentId } from '../../library/componentRegistry';
 
 type SidebarComponent = {
-  id: LibraryComponentId;
+  id: DemoComponentId;
   label: string;
 };
 
@@ -11,8 +11,8 @@ type SidebarProps = {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
-  onSelectComponent: (componentId: LibraryComponentId) => void;
-  selectedComponentId: LibraryComponentId;
+  onSelectComponent: (componentId: DemoComponentId) => void;
+  selectedComponentId: DemoComponentId;
 };
 
 const SidebarIcon = () => (
@@ -53,7 +53,7 @@ export function Sidebar(props: SidebarProps) {
         className={`sidebar${props.isOpen ? ' sidebar--open' : ''}`}
       >
         <div className="sidebar__header">
-          <span className="sidebar__title">React Component Library</span>
+          <span className="sidebar__title">React Component Playground</span>
           <button
             className="sidebar__icon-button"
             type="button"
@@ -70,7 +70,9 @@ export function Sidebar(props: SidebarProps) {
                 className="sidebar__nav-link"
                 href={`#${component.id}`}
                 aria-current={
-                  props.selectedComponentId === component.id ? 'page' : undefined
+                  props.selectedComponentId === component.id
+                    ? 'page'
+                    : undefined
                 }
                 onClick={event => {
                   event.preventDefault();

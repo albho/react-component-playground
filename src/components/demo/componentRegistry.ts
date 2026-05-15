@@ -4,7 +4,7 @@ import TodoListWrapper, {
   TodoListProvider,
 } from './TodoList/TodoListWrapper';
 
-export const libraryComponents = [
+export const demoComponents = [
   {
     id: 'todo-list',
     label: 'Todo List',
@@ -15,8 +15,8 @@ export const libraryComponents = [
   },
 ] as const;
 
-export type LibraryComponentId = (typeof libraryComponents)[number]['id'];
+export type DemoComponentId = (typeof demoComponents)[number]['id'];
 
-export const getLibraryComponent = (id: LibraryComponentId) =>
-  libraryComponents.find(component => component.id === id) ??
-  libraryComponents[0];
+export const getDemoComponent = (id: DemoComponentId) =>
+  demoComponents.find(component => component.id === id) ??
+  demoComponents[0];
