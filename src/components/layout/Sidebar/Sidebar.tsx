@@ -53,7 +53,7 @@ export function Sidebar(props: SidebarProps) {
         className={`sidebar${props.isOpen ? ' sidebar--open' : ''}`}
       >
         <div className="sidebar__header">
-          <span className="sidebar__title">React Component Playground</span>
+          <h1 className="sidebar__title">React Component Playground</h1>
           <button
             className="sidebar__icon-button"
             type="button"
