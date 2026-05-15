@@ -16,7 +16,7 @@
 @media (min-width: 1200px) {
   .app {
     grid-template-columns: minmax(0, 2fr) minmax(0, 8fr) minmax(0, 2fr);
-    gap: var(--space-8);
+    gap: var(--space-6);
     height: auto;
     min-height: 100dvh;
     padding: var(--space-4);
