@@ -216,7 +216,7 @@ export function ComponentPreview(props: ComponentPreviewProps) {
           aria-label="Resize preview from left"
           onPointerDown={handleResizeStart('left')}
         />
-        {props.children}
+        <div className="component-preview__content">{props.children}</div>
         <button
           className="component-preview__resize-handle component-preview__resize-handle--right"
           type="button"
