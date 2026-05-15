@@ -3,12 +3,9 @@ import './App.scss';
 import { ComponentControl } from './components/layout/ComponentControl/ComponentControl';
 import { ComponentPreview } from './components/layout/ComponentPreview/ComponentPreview';
 import { Sidebar } from './components/layout/Sidebar/Sidebar';
-import { usePreviewTheme } from './usePreviewTheme';
 
 function App() {
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const { themePreference, resolvedTheme, setThemePreference } =
-    usePreviewTheme();
 
   return (
     <div className="app">
@@ -18,13 +15,10 @@ function App() {
         onClose={() => setIsNavOpen(false)}
       />
       <main className="app__main">
-        <ComponentPreview theme={resolvedTheme}>
+        <ComponentPreview>
           <div></div>
         </ComponentPreview>
-        <ComponentControl
-          themePreference={themePreference}
-          onThemePreferenceChange={setThemePreference}
-        />
+        <ComponentControl />
       </main>
     </div>
   );

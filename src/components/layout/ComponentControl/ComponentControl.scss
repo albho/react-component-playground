@@ -2,20 +2,6 @@
   min-width: 0;
   min-height: 0;
   padding: var(--space-4);
-  background: var(--color-surface);
-  border-top: 1px solid var(--color-border);
-}
-
-.component-control__theme {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-4);
-}
-
-.component-control__theme-button[aria-pressed='true'] {
-  color: var(--color-accent-foreground);
-  background: var(--color-accent);
 }
 
 @media (min-width: 1200px) {
