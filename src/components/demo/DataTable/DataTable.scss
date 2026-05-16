@@ -102,15 +102,19 @@
   opacity: 0.65;
 }
 
-.data-table__table {
-  display: block;
+.data-table__table-scroll {
   width: 100%;
   overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.data-table__table {
+  width: 100%;
+  min-width: var(--data-table-min-width);
   table-layout: fixed;
   border-collapse: separate;
   border-spacing: 0;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
 }
 
 .data-table__header-cell {
@@ -226,7 +230,6 @@
   }
 
   .data-table__table {
-    display: table;
-    overflow-x: hidden;
+    min-width: min(100%, var(--data-table-min-width));
   }
 }

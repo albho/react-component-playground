@@ -1,4 +1,4 @@
-import type { SyntheticEvent } from 'react';
+import type { CSSProperties, SyntheticEvent } from 'react';
 import { useState } from 'react';
 import './DataTable.scss';
 
@@ -116,6 +116,12 @@ function DataTableEmptyRows(props: { columns: DataColumn[] }) {
 
 export default function DataTable(props: DataTableProps) {
   const [filterInput, setFilterInput] = useState(props.query);
+  const tableStyle = {
+    '--data-table-min-width': `${props.columns.reduce(
+      (totalWidth, column) => totalWidth + (column.width ?? 0),
+      0,
+    )}px`,
+  } as CSSProperties;
 
   const handleFilterSubmit = (
     event: SyntheticEvent<HTMLFormElement, SubmitEvent>,
@@ -172,69 +178,78 @@ export default function DataTable(props: DataTableProps) {
         </p>
       )}
 
-      <table className="data-table__table" aria-busy={props.isLoading}>
-        <thead>
-          <tr>
-            {props.columns.map(column => (
-              <th
-                key={column.key}
-                style={{ width: column.width }}
-                className="data-table__header-cell"
-                aria-sort={
-                  props.sort?.columnKey === column.key
-                    ? props.sort.direction
-                    : 'none'
-                }
-              >
-                <button
-                  type="button"
-                  className="data-table__sort-button"
-                  disabled={props.isLoading}
-                  aria-label={getSortLabel(column, props.sort)}
-                  onClick={() => props.onSort(column.key)}
+      <div className="data-table__table-scroll">
+        <table
+          className="data-table__table"
+          aria-busy={props.isLoading}
+          style={tableStyle}
+        >
+          <thead>
+            <tr>
+              {props.columns.map(column => (
+                <th
+                  key={column.key}
+                  style={{ minWidth: column.width }}
+                  className="data-table__header-cell"
+                  aria-sort={
+                    props.sort?.columnKey === column.key
+                      ? props.sort.direction
+                      : 'none'
+                  }
                 >
-                  <span>{column.label}</span>
-                  <span
-                    className="data-table__sort-indicator"
-                    aria-hidden="true"
+                  <button
+                    type="button"
+                    className="data-table__sort-button"
+                    disabled={props.isLoading}
+                    aria-label={getSortLabel(column, props.sort)}
+                    onClick={() => props.onSort(column.key)}
                   >
-                    {getSortIndicator(column, props.sort)}
-                  </span>
-                </button>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        {props.isLoading ? (
-          <DataTableLoadingRows columns={props.columns} rows={props.pageSize} />
-        ) : props.items.length === 0 ? (
-          <DataTableEmptyRows columns={props.columns} />
-        ) : (
-          <tbody>
-            {props.items.map(item => (
-              <tr
-                key={item.id}
-                className={`data-table__row${
-                  props.selectedRowIds.includes(item.id)
-                    ? ' data-table__row--selected'
-                    : ''
-                }`}
-                onClick={() => props.onSelectRow(item.id)}
-              >
-                {props.columns.map(column => (
-                  <td
-                    key={column.key}
-                    className="data-table__cell"
-                    data-column-key={column.key}
-                  >
-                    {getCellValue(item, column.key)}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        )}
-      </table>
+                    <span>{column.label}</span>
+                    <span
+                      className="data-table__sort-indicator"
+                      aria-hidden="true"
+                    >
+                      {getSortIndicator(column, props.sort)}
+                    </span>
+                  </button>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          {props.isLoading ? (
+            <DataTableLoadingRows
+              columns={props.columns}
+              rows={props.pageSize}
+            />
+          ) : props.items.length === 0 ? (
+            <DataTableEmptyRows columns={props.columns} />
+          ) : (
+            <tbody>
+              {props.items.map(item => (
+                <tr
+                  key={item.id}
+                  className={`data-table__row${
+                    props.selectedRowIds.includes(item.id)
+                      ? ' data-table__row--selected'
+                      : ''
+                  }`}
+                  onClick={() => props.onSelectRow(item.id)}
+                >
+                  {props.columns.map(column => (
+                    <td
+                      key={column.key}
+                      className="data-table__cell"
+                      data-column-key={column.key}
+                    >
+                      {getCellValue(item, column.key)}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          )}
+        </table>
+      </div>
       <div className="data-table__pagination">
         <button
           className="data-table__page-button"
