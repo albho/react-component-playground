@@ -1,4 +1,9 @@
-import type { CSSProperties, PointerEvent, ReactNode } from 'react';
+import type {
+  CSSProperties,
+  KeyboardEvent,
+  PointerEvent,
+  ReactNode,
+} from 'react';
 import { useEffect, useRef, useState } from 'react';
 import './ComponentPreview.scss';
 import {
@@ -30,6 +35,8 @@ const MOBILE_PREVIEW_WIDTH = 375;
 const TABLET_PREVIEW_WIDTH = 768;
 const DESKTOP_PREVIEW_WIDTH = 1024;
 const DESKTOP_MAX_WIDTH_CUSHION = 96;
+const KEYBOARD_RESIZE_STEP = 32;
+const KEYBOARD_RESIZE_LARGE_STEP = 128;
 const previewPresets: PreviewPreset[] = ['mobile', 'tablet', 'desktop'];
 const themePreferences: ThemePreference[] = ['light', 'dark'];
 
@@ -121,7 +128,7 @@ export function ComponentPreview(props: ComponentPreviewProps) {
   }, [resizeState]);
 
   const handleResizeStart =
-    (side: ResizeSide) => (event: PointerEvent<HTMLButtonElement>) => {
+    (side: ResizeSide) => (event: PointerEvent<HTMLDivElement>) => {
       if (maxWidth === undefined) {
         return;
       }
@@ -134,6 +141,57 @@ export function ComponentPreview(props: ComponentPreviewProps) {
         startX: event.clientX,
       });
     };
+
+  const handleResizeKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (maxWidth === undefined) {
+      return;
+    }
+
+    const currentWidth = previewWidth ?? maxWidth;
+
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      setPreviewWidth(
+        getClampedWidth(currentWidth - KEYBOARD_RESIZE_STEP, maxWidth),
+      );
+      return;
+    }
+
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      setPreviewWidth(
+        getClampedWidth(currentWidth + KEYBOARD_RESIZE_STEP, maxWidth),
+      );
+      return;
+    }
+
+    if (event.key === 'PageDown') {
+      event.preventDefault();
+      setPreviewWidth(
+        getClampedWidth(currentWidth - KEYBOARD_RESIZE_LARGE_STEP, maxWidth),
+      );
+      return;
+    }
+
+    if (event.key === 'PageUp') {
+      event.preventDefault();
+      setPreviewWidth(
+        getClampedWidth(currentWidth + KEYBOARD_RESIZE_LARGE_STEP, maxWidth),
+      );
+      return;
+    }
+
+    if (event.key === 'Home') {
+      event.preventDefault();
+      setPreviewWidth(getClampedWidth(MIN_PREVIEW_WIDTH, maxWidth));
+      return;
+    }
+
+    if (event.key === 'End') {
+      event.preventDefault();
+      setPreviewWidth(maxWidth);
+    }
+  };
 
   const setPreviewPreset = (width: number) => {
     if (maxWidth === undefined) {
@@ -179,6 +237,8 @@ export function ComponentPreview(props: ComponentPreviewProps) {
   const presetStyle = {
     '--component-preview-active-preset': previewPresets.indexOf(activePreset),
   } as CSSProperties;
+  const resizeValue = Math.round(previewWidth ?? maxWidth ?? MIN_PREVIEW_WIDTH);
+  const resizeMaxValue = Math.round(maxWidth ?? MIN_PREVIEW_WIDTH);
   const selectNextThemePreference = () => {
     const nextThemeIndex =
       (themePreferences.indexOf(themePreference) + 1) % themePreferences.length;
@@ -210,17 +270,31 @@ export function ComponentPreview(props: ComponentPreviewProps) {
             </span>
           ))}
         </button>
-        <button
+        <div
           className="component-preview__resize-handle component-preview__resize-handle--left"
-          type="button"
           aria-label="Resize preview from left"
+          aria-valuemax={resizeMaxValue}
+          aria-valuemin={MIN_PREVIEW_WIDTH}
+          aria-valuenow={resizeValue}
+          aria-valuetext={`${resizeValue}px wide`}
+          aria-orientation="horizontal"
+          role="slider"
+          tabIndex={0}
+          onKeyDown={handleResizeKeyDown}
           onPointerDown={handleResizeStart('left')}
         />
         <div className="component-preview__content">{props.children}</div>
-        <button
+        <div
           className="component-preview__resize-handle component-preview__resize-handle--right"
-          type="button"
           aria-label="Resize preview from right"
+          aria-valuemax={resizeMaxValue}
+          aria-valuemin={MIN_PREVIEW_WIDTH}
+          aria-valuenow={resizeValue}
+          aria-valuetext={`${resizeValue}px wide`}
+          aria-orientation="horizontal"
+          role="slider"
+          tabIndex={0}
+          onKeyDown={handleResizeKeyDown}
           onPointerDown={handleResizeStart('right')}
         />
       </section>
