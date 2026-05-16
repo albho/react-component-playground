@@ -6,4 +6,5 @@ A playground for viewing and testing common web components under different UI st
 
 ## Components
 
+- [Data Table](./src/components/demo/DataTable/)
 - [Todo List](./src/components/demo/TodoList/)
