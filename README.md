@@ -8,5 +8,5 @@ A playground for exploring how common web components should behave across real p
 
 ## Currently Available Components
 
-- [Data Table](./src/components/demo/DataTable/)
-- [Todo List](./src/components/demo/TodoList/)
+- [Data Table](https://albho-react-component-playground.vercel.app/#data-table)
+- [Todo List](https://albho-react-component-playground.vercel.app/#todo-list)
