@@ -1,10 +1,12 @@
 # React Component Playground
 
-> Live demo: [https://albho-react-component-playground.vercel.app/](https://albho-react-component-playground.vercel.app/)
+A playground for exploring how common web components should behave across real production states and edge cases, including loading, empty, error, and interactive states.
 
-A playground for viewing and testing common web components under different UI states, with a focus on scenarios such as loading, empty, and error handling states.
+> See it live at [https://albho-react-component-playground.vercel.app/](https://albho-react-component-playground.vercel.app/)
 
-## Components
+![React Component Playground](./screenshots/react_component_playground_presentation.png)
+
+## Currently Available Components
 
 - [Data Table](./src/components/demo/DataTable/)
 - [Todo List](./src/components/demo/TodoList/)
