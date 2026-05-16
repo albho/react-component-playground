@@ -4,7 +4,7 @@ import type {
   PointerEvent,
   ReactNode,
 } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import './ComponentPreview.scss';
 import {
   DarkModeIcon,
@@ -29,6 +29,9 @@ type ResizeState = {
   startWidth: number;
   startX: number;
 };
+type PreviewWidthUpdate =
+  | number
+  | ((currentWidth: number | undefined) => number);
 
 const MIN_PREVIEW_WIDTH = 320;
 const MOBILE_PREVIEW_WIDTH = 375;
@@ -39,6 +42,7 @@ const KEYBOARD_RESIZE_STEP = 32;
 const KEYBOARD_RESIZE_LARGE_STEP = 128;
 const previewPresets: PreviewPreset[] = ['mobile', 'tablet', 'desktop'];
 const themePreferences: ThemePreference[] = ['light', 'dark'];
+let persistedPreviewWidth: number | undefined;
 
 const getClampedWidth = (width: number, maxWidth: number) =>
   Math.min(Math.max(width, Math.min(MIN_PREVIEW_WIDTH, maxWidth)), maxWidth);
@@ -63,8 +67,22 @@ export function ComponentPreview(props: ComponentPreviewProps) {
   const { themePreference, resolvedTheme, setThemePreference } =
     usePreviewTheme();
   const [maxWidth, setMaxWidth] = useState<number>();
-  const [previewWidth, setPreviewWidth] = useState<number>();
+  const [previewWidth, setPreviewWidthState] = useState(
+    () => persistedPreviewWidth,
+  );
   const [resizeState, setResizeState] = useState<ResizeState>();
+  const setPreviewWidth = useCallback((widthUpdate: PreviewWidthUpdate) => {
+    setPreviewWidthState(currentWidth => {
+      const nextWidth =
+        typeof widthUpdate === 'function'
+          ? widthUpdate(currentWidth)
+          : widthUpdate;
+
+      persistedPreviewWidth = nextWidth;
+
+      return nextWidth;
+    });
+  }, []);
 
   useEffect(() => {
     const shellElement = shellRef.current;
