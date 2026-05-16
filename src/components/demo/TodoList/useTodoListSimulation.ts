@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import type { TodoItem } from './TodoList';
+import { defaultSimulationLatencyMs } from '../simulationSettings';
 
 export type TodoListFailureSettings = {
   addShouldFail: boolean;
@@ -29,8 +30,6 @@ export type TodoListSimulation = {
   ) => void;
   toggleTodo: (id: string) => void;
 };
-
-const defaultTodoListLatencyMs = 700;
 
 const initialTodoListFailureSettings: TodoListFailureSettings = {
   addShouldFail: false,
@@ -94,7 +93,7 @@ export function useTodoListSimulation(): TodoListSimulation {
   const [settings, setSettings] = useState(initialTodoListFailureSettings);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [latencyMs, setLatencyMs] = useState(defaultTodoListLatencyMs);
+  const [latencyMs, setLatencyMs] = useState(defaultSimulationLatencyMs);
   const [pendingDeleteIds, setPendingDeleteIds] = useState<string[]>([]);
   const [pendingEditIds, setPendingEditIds] = useState<string[]>([]);
   const [pendingToggleIds, setPendingToggleIds] = useState<string[]>([]);

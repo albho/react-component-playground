@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { DataColumn, DataItem, DataTableSortState } from './DataTable';
+import { defaultSimulationLatencyMs } from '../simulationSettings';
 
 export type DataTableFailureSettings = {
   filterShouldFail: boolean;
@@ -27,8 +28,6 @@ export type DataTableSimulation = {
   onSelectRow: (id: string) => void;
   onPageChange: (page: number) => void;
 };
-
-const defaultDataTableLatencyMs = 600;
 
 const initialDataTableFailureSettings: DataTableFailureSettings = {
   filterShouldFail: false,
@@ -131,9 +130,7 @@ type SimulatedDataTableRequestOptions = {
   shouldFail: boolean;
 };
 
-const simulateDataTableRequest = (
-  options: SimulatedDataTableRequestOptions,
-) =>
+const simulateDataTableRequest = (options: SimulatedDataTableRequestOptions) =>
   new Promise<void>((resolve, reject) => {
     window.setTimeout(() => {
       if (options.shouldFail) {
@@ -211,7 +208,7 @@ export function useDataTableSimulation(): DataTableSimulation {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [latencyMs, setLatencyMs] = useState(defaultDataTableLatencyMs);
+  const [latencyMs, setLatencyMs] = useState(defaultSimulationLatencyMs);
   const [settings, setSettings] = useState(initialDataTableFailureSettings);
   const pageSize = 5;
 
