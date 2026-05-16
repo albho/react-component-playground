@@ -89,7 +89,38 @@
 
 .component-control__range input {
   width: 100%;
-  accent-color: var(--color-accent);
+  height: 6px;
+  appearance: none;
+  background: var(--color-border);
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Chrome / Safari / Edge */
+.component-control__range input::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+/* Firefox */
+.component-control__range input::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+.component-control__range input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
 }
 
 .component-control__actions {
