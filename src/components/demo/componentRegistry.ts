@@ -1,3 +1,8 @@
+import DataTableWrapper, {
+  DataTableControlState,
+  DataTableControls,
+  DataTableProvider,
+} from './DataTable/DataTableWrapper';
 import TodoListWrapper, {
   TodoListControlState,
   TodoListControls,
@@ -5,6 +10,14 @@ import TodoListWrapper, {
 } from './TodoList/TodoListWrapper';
 
 export const demoComponents = [
+  {
+    id: 'data-table',
+    label: 'Data Table',
+    ControlState: DataTableControlState,
+    Controls: DataTableControls,
+    Preview: DataTableWrapper,
+    Provider: DataTableProvider,
+  },
   {
     id: 'todo-list',
     label: 'Todo List',
@@ -18,5 +31,4 @@ export const demoComponents = [
 export type DemoComponentId = (typeof demoComponents)[number]['id'];
 
 export const getDemoComponent = (id: DemoComponentId) =>
-  demoComponents.find(component => component.id === id) ??
-  demoComponents[0];
+  demoComponents.find(component => component.id === id) ?? demoComponents[0];
