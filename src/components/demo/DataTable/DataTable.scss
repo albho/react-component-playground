@@ -216,7 +216,7 @@
   font-size: var(--font-size-sm);
 }
 
-@media (min-width: 768px) {
+@container (min-width: 768px) {
   .data-table {
     padding: var(--space-5);
   }
