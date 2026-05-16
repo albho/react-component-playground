@@ -107,6 +107,8 @@
   --color-accent: #60a5fa;
   --color-accent-hover: #3b82f6;
   --color-accent-foreground: #020617;
+  --color-interactive-surface-hover: #1e3a5f;
+  --color-interactive-surface-selected: #1e40af;
   --color-danger: #f87171;
   --color-danger-surface: #450a0a;
   --color-danger-border: #7f1d1d;
@@ -140,6 +142,11 @@
     background: transparent;
     cursor: ew-resize;
     touch-action: none;
+  }
+
+  .component-preview__resize-handle:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 
   .component-preview__resize-handle::before {

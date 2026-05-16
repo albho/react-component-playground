@@ -74,8 +74,7 @@ export function Sidebar(props: SidebarProps) {
                     ? 'page'
                     : undefined
                 }
-                onClick={event => {
-                  event.preventDefault();
+                onClick={() => {
                   props.onSelectComponent(component.id);
                 }}
               >

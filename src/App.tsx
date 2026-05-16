@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.scss';
 import {
   getDemoComponent,
@@ -9,15 +9,36 @@ import { ComponentControl } from './components/layout/ComponentControl/Component
 import { ComponentPreview } from './components/layout/ComponentPreview/ComponentPreview';
 import { Sidebar } from './components/layout/Sidebar/Sidebar';
 
+const getComponentIdFromHash = (): DemoComponentId => {
+  const hashComponentId = window.location.hash.slice(1);
+  const component = demoComponents.find(
+    demoComponent => demoComponent.id === hashComponentId,
+  );
+
+  return component?.id ?? demoComponents[0].id;
+};
+
 function App() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [selectedComponentId, setSelectedComponentId] =
-    useState<DemoComponentId>(demoComponents[0].id);
+    useState<DemoComponentId>(getComponentIdFromHash);
   const selectedComponent = getDemoComponent(selectedComponentId);
   const SelectedComponentControlState = selectedComponent.ControlState;
   const SelectedComponentControls = selectedComponent.Controls;
   const SelectedComponentPreview = selectedComponent.Preview;
   const SelectedComponentProvider = selectedComponent.Provider;
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setSelectedComponentId(getComponentIdFromHash());
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
 
   return (
     <div className="app">
